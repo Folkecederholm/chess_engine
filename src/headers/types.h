@@ -1,6 +1,7 @@
 %:ifndef TYPES_H
 %:define TYPES_H
 
+#include <stdbool.h>
 
 typedef char Piece;
 #define EMPTY_SQUARE 0
@@ -19,6 +20,7 @@ typedef char Piece;
 
 typedef struct {
   Piece board[64];
+  bool white_turn;
 } Board;
 
 %:endif

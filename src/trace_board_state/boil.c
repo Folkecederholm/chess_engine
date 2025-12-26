@@ -1,8 +1,8 @@
-#include "../headers/types.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../headers/types.h"
 
 /***starting_board() is a kind of Board***/
 Board* starting_board() {
@@ -15,7 +15,7 @@ Board* starting_board() {
     0, 0, 0, 0, 0, 0, 0, 0,
     BLACK_PAWN, BLACK_PAWN, BLACK_PAWN, BLACK_PAWN, BLACK_PAWN, BLACK_PAWN, BLACK_PAWN, BLACK_PAWN,
     BLACK_ROOK, BLACK_KNIGHT, BLACK_BISHOP, BLACK_QUEEN, BLACK_KING, BLACK_BISHOP, BLACK_KNIGHT, BLACK_ROOK,
-     }};
+     }, .white_turn = true};
   Board* heap_board = (Board*)malloc(sizeof(Board));
   memcpy(heap_board->board, board.board, sizeof(Board));
   return heap_board;
@@ -26,6 +26,7 @@ void set_piece(Board* board, int x, int y, Piece piece) {
 }
 
 void make_move(Board* board, char* move) {
+  board->white_turn = !board->white_turn;
 
   if (move == 0) // Null move - don't change the board
     return;

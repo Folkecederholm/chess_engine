@@ -6,8 +6,8 @@ $(TARGET): build/main.o build/test.a build/trace_board_state.a
 build/main.o: src/main.c
 	clang -c src/main.c -o $@
 
-build/test.a: src/test.rs
-	rustc src/test.rs -o $@ --crate-type=staticlib -C panic=abort
+build/test.a: src/find_moves/pub.rs src/find_moves/*
+	rustc $< -o $@ --crate-type=staticlib -C panic=abort
 
 build/trace_board_state.a: build/trace_board_state_pub.o build/trace_board_state_boil.o
 	#clang -c build/trace_board_state_pub.o build/trace_board_state_boil.o -o $@
@@ -19,8 +19,11 @@ build/trace_board_state_boil.o: src/trace_board_state/boil.c
 	clang -c src/trace_board_state/boil.c -o $@
 
 clean:
-	rm build/*
+	rm build/* -f
 
 test: $(TARGET)
 	./$(TARGET)
 
+recompile:
+	make clean
+	make
