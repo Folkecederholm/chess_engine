@@ -18,7 +18,7 @@ pub extern "C" fn describe_board(board: Board) {
 use std::os::raw::c_char;
 use std::ffi::CString;
 #[no_mangle]
-pub extern "C" fn make_string(board: Board) -> *mut c_char {
+pub extern "C" fn find_all_moves(board: Board) -> *mut c_char {
     let mut string = find_moves::find_moves(&board);
     // let mut string = Vec::with_capacity(20);
     // string.extend_from_slice(b"Hello, world!");

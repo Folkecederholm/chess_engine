@@ -13,9 +13,13 @@ fn try_piece_pawn(board: &Board, index: usize, turn_colour: Colour, string: &mut
     // }
     if piece.is_colour(turn_colour) {
         match piece.get_piece() {
-            // Pawn => { pawn_move(board, index, turn_colour, string); },
+            Pawn => { pawn_move(board, index, turn_colour, string); },
             Knight => { knight_move(board, index, turn_colour, string); },
-            _ => { }
+            Rook => { rook_move(board, index, turn_colour, string); },
+            Bishop => { bishop_move(board, index, turn_colour, string); },
+            Queen => { rook_move(board, index, turn_colour, string); bishop_move(board, index, turn_colour, string); },
+            King => { king_move(board, index, turn_colour, string); },
+            _ => { },
         }
     }
 }
@@ -32,7 +36,7 @@ pub fn find_moves(board: &Board) -> Vec<u8> {
     for index in 0..board.board.len() {
         try_piece_pawn(board, index, turn_colour, &mut string);
     }
-    string.extend_from_slice(b"Hi, world!");
+    // string.extend_from_slice(b"Hi, world!");
     string.push(0);
     string
 }
