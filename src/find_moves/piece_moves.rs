@@ -12,6 +12,22 @@ fn can_move_to_square(board: &Board, index: isize, turn_colour: Colour) -> bool 
     }
 }
 
+fn pawn_can_move_to_square(board: &Board, index: isize, turn_colour: Colour, capture: bool) -> bool {
+    if index < 0 || index > 63 {
+        return false;
+    }
+    let res = board.board.get(index as usize);
+    match res {
+        Some(n) => {
+            match capture {
+                true => { !n.is_colour(turn_colour) && !n.is_colour(Colour::Empty) },
+                false => { n.is_colour(Colour::Empty) }
+            }
+        },
+        None => false
+    }
+}
+
 fn does_not_stop(board: &Board, index: usize, _turn_colour: Colour) -> bool {
     let res = board.board.get(index);
     match res {
@@ -76,16 +92,19 @@ pub fn pawn_move(board: &Board, index: usize, turn_colour: Colour, string: &mut 
     };
     // Check for moves the pawns can make
     let dest_index = index as isize + move_dist as isize;
-    if can_move_to_square(board, dest_index, turn_colour) {
+    //if can_move_to_square(board, dest_index, turn_colour) {
+    if pawn_can_move_to_square(board, dest_index, turn_colour, false) {
         let alg = get_algebraic(index, dest_index as usize, None);
         string.extend_from_slice(&alg);
 
+        /*
         // Prepare for if check
         let dest_index = index as isize + 2 * move_dist as isize;
         if can_move_to_square(board, dest_index, turn_colour) {
             let alg = get_algebraic(index, dest_index as usize, None);
             string.extend_from_slice(&alg);
         }
+        */
     }
 }
 

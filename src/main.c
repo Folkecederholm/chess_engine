@@ -73,7 +73,7 @@ int main() { // This function is a REPL
         char* moves_string = input + 17;
         if (pthread_create(&thread, NULL, from_startpos, moves_string) != 0) {
           printf("Couldn't create a new thread");
-        fflush(stdout);
+          fflush(stdout);
           return 1;
         }
       }
@@ -83,6 +83,7 @@ int main() { // This function is a REPL
       }
       if (strncmp(input, "board", 5) == 0) {
         print_board(board, true);
+        fflush(stdout);
       }
     }
 

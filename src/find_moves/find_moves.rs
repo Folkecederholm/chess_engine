@@ -1,7 +1,7 @@
 use Board;
 
 use types::Colour;
-fn try_piece_pawn(board: &Board, index: usize, turn_colour: Colour, string: &mut Vec<u8>) {
+fn try_move_piece(board: &Board, index: usize, turn_colour: Colour, string: &mut Vec<u8>) {
     use piece_moves::*;
     use types::PieceType::*;
 
@@ -34,7 +34,7 @@ pub fn find_moves(board: &Board) -> Vec<u8> {
     let turn_colour: Colour = board.current_colour().clone();
     // Pawn moves
     for index in 0..board.board.len() {
-        try_piece_pawn(board, index, turn_colour, &mut string);
+        try_move_piece(board, index, turn_colour, &mut string);
     }
     // string.extend_from_slice(b"Hi, world!");
     string.push(0);
