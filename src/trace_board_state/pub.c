@@ -4,13 +4,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+// %:include "pub.h" //for debugging with the print_board function
+
 Board* trace_moves(char* moves_str) {
   Board* board = starting_board();
-  // Board* board = (Board*)malloc(sizeof(Board));
-  /*
-  make_move(&board, "e2e4");
-  make_move(&board, "e7e5");
-  */
   while (1) {
     // printf("BEFORE:{%s} ",moves_str);
     // printf("FIRST_CHAR:{%c}",moves_str[0]);
@@ -18,6 +15,7 @@ Board* trace_moves(char* moves_str) {
 
     do { moves_str++; } while (*(moves_str-1) != ' ' && *moves_str != '\0');
     // printf("AFTER:{%s} ",moves_str);
+    // print_board(board, true);
     if (*moves_str == '\0') {
       // printf("BREAKING\n");
       break;
