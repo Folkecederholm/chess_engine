@@ -60,9 +60,10 @@ int main() { // This function is a REPL
     size_t len = 0;
     pthread_t thread;
     if (getline(&input, &len, stdin) != -1) {
-      if (strcmp(input, "isready\n") == 0)
+      if (strcmp(input, "isready\n") == 0) {
         printf("readyok\n");
         fflush(stdout);
+      }
       if (strcmp(input, "exit\n") == 0) {
         printf("ok\n");
         fflush(stdout);

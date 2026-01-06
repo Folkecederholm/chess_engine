@@ -1,4 +1,4 @@
-use types::{Board, Colour};
+use types::{Board, Colour, Piece};
 
 /*use types::Colour;*/
 fn can_move_to_square(board: &Board, index: isize, turn_colour: Colour) -> bool { // Doesn't look for checking, will filter out later
@@ -80,6 +80,49 @@ fn slide_move(board: &Board, index: usize, turn_colour: Colour, string: &mut Vec
         }
     }
 }
+
+/* use types::Piece; */
+fn move_piece(board: &Board, start: usize, end: usize) -> Board {
+    let mut new_board = board.clone();
+    let moved_piece = new_board.board[start];
+    new_board.board[start] = Piece::EmptySquare;
+    new_board.board[end] = moved_piece;
+    new_board
+}
+
+/* This is a function to see if the king is taken */
+fn king_taken(moves: &Vec<u8>, turn_colour: Colour, board: &Board) -> bool {
+    use piece_moves::Piece::{WhiteKing,BlackKing};
+    use piece_moves::Colour::*;
+    let king_piece = match turn_colour {
+        White => { WhiteKing },
+        Black => { BlackKing },
+        Empty => { unreachable!() }, // This means the function was improperly called
+    };
+    // Find the king piece on the board
+    let king_index = board.board.iter().position(|x| *x == king_piece).expect("No king of that colour on board");
+
+    // Get the algebraic value of the king
+    let long_algebraic = get_algebraic(king_index, 0, None);
+    let king_algebraic = &long_algebraic[0..2];
+
+    // See if the king is involved in any moves
+    // This is the same as it being taken, only easier to just look for its coordinate
+    moves.windows(2).any(|x| x == king_algebraic)
+}
+
+fn check(board: &Board) -> bool {
+    use find_moves::find_moves;
+    use piece_moves::Colour::{White, Black};
+    let moves = find_moves(board);
+    let turn_colour = match board.white_turn {
+        true => { White },
+        false => { Black },
+    };
+    king_taken(&moves, turn_colour, &board)
+}
+
+
 
 /** Now the different piece moves start **/
 
